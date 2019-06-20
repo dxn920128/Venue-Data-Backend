@@ -1,0 +1,31 @@
+{
+  "name": "venueData",
+  "version": "1.0.0",
+  "dependencies": {
+    "axios": "latest",
+    "jsonwebtoken": "^7.3.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.1.0",
+    "koa-passport": "^3.0.0",
+    "koa-respond": "^2.1.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^4.9.0",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.19.0"
+  }
+}

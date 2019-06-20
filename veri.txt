@@ -1,0 +1,54 @@
+*venuex 			
+	-timestamp					
+	-name
+	-country
+	-city
+	-address
+	-coordinates- 
+	!managing company
+	-GLA- string
+	-Opening year- string
+	-Google Maps Status- boolean?
+	-Apple Maps Status- boolean?
+	-LinkedIn- string rest...
+	-Facebook
+	-Twitter
+	-Instagram
+	-Android App
+	-iOS App
+	-Website
+	-yandex link 
+	-foursquare link
+	-yelp link
+	-google my business link
+	-tripadvisor link
+	-moovit app link
+	-zomato link
+	-airbnb link
+	-is our customer?- boolean
+		'venuex' boolean rest...
+		'web'
+		'mobile'
+		'kiosk'
+		'ds'
+		'crm'
+		'fm'
+
+
+*Management company
+	-timestamp
+	-name
+	-HQ country
+	-HQ city
+	-HQ address
+	-Website
+	-number of venues
+	-total GLA
+	-number of countries
+	-LinkedIn
+	-Facebook
+	-Twitter
+	-Instagram
+	-Youtube
+
+

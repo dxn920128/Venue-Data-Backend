@@ -82,6 +82,23 @@ module.exports = {
             ctx.body = err;
         }
     },
+    readAllVenues: async (ctx) => {
+        try {
+            const result = await venue.find({});
+
+            if (!result) {
+                ctx.body = "Venue can not be found";
+                ctx.status = 400;
+            } else {
+                ctx.body = result;
+                ctx.status = 200;
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 400;
+            ctx.body = err;
+        }
+    },
     updateVenue: async (ctx) => {
         try {
             /**************** FIX THIS METHOD *************/
@@ -171,6 +188,23 @@ module.exports = {
                 ctx.status = 400;
             } else {
                 ctx.body = "Company successfully deleted";
+                ctx.status = 200;
+            }
+        } catch (err) {
+            console.log(err);
+            ctx.status = 400;
+            ctx.body = err;
+        }
+    },
+    readAllCompanies: async (ctx) => {
+        try {
+            const result = await company.find({});
+
+            if (!result) {
+                ctx.body = "Company can not be found";
+                ctx.status = 400;
+            } else {
+                ctx.body = result;
                 ctx.status = 200;
             }
         } catch (err) {

@@ -9,9 +9,11 @@ module.exports = ({ router }) => {
         .delete('/deleteVenue', jwAuth, controller.deleteVenue)
         .post('/updateVenue', jwAuth, controller.updateVenue)
         .get('/readVenue', jwAuth, controller.readVenue)
+        .get('/readAllVenues', jwAuth, controller.readAllVenues)
 
         .post('/addNewCompany', jwAuth, controller.addNewCompany)
         .delete('/deleteCompany', jwAuth, controller.deleteCompany)
         .post('/updateCompany', jwAuth, controller.updateCompany)
         .get('/readCompany', jwAuth, controller.readCompany)
+        .get('/readAllCompanies', jwAuth, controller.readAllCompanies)
 };

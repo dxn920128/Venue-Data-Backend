@@ -26,13 +26,13 @@ module.exports = {
                 };
                 console.log(payload);
                 const token = jwt.sign(payload, jwtsecret, {expiresIn: 60 * 60}); //JWT is created here
-                ctx.body = {token: token};
+                ctx.body = {token: "JWT " + token};
             }
         })(ctx, next);
     },
     deleteVenue: async (ctx) => {
         try {
-            const result = await venue.findOneAndRemove({name: ctx.request.query.name});
+            const result = await venue.findOneAndRemove({_id: ctx.request.query._id});
 
             if(!result){
                 ctx.body = "Can not delete venue";
@@ -47,21 +47,16 @@ module.exports = {
             ctx.body = err;
         }
     },
-    addNewVenue: async (ctx, next) => {
+    addNewVenue: async (ctx) => {
         try {
             const result = await venue.create(ctx.request.query);
-            const saved = await result.save();
 
-            if(!saved) {
-                ctx.body = "Venue could not be saved to database";
-                ctx.status = 400;
-            }
             if(!result) {
                 ctx.body = "Venue could not be created";
                 ctx.status = 400;
             }
             else{
-                ctx.body = "Venue successfully created";
+                ctx.body = "Venue successfully created \n" + result;
                 ctx.status = 200;
             }
         } catch (err) {
@@ -70,9 +65,9 @@ module.exports = {
             ctx.body = err;
         }
     },
-    showVenue: async (ctx, next) => {
+    readVenue: async (ctx) => {
         try {
-            const result = await venue.findOne({name: ctx.request.query.name});
+            const result = await venue.findOne({_id: ctx.request.query._id});
 
             if (!result) {
                 ctx.body = "Venue can not be found";
@@ -89,8 +84,9 @@ module.exports = {
     },
     updateVenue: async (ctx) => {
         try {
+            /**************** FIX THIS METHOD *************/
             const newData = ctx.request.query.newData;
-            const result = await venue.findOneAndUpdate({name: ctx.request.query.name}, {$set: {city : "Tirana"}, new: true});
+            const result = await venue.findOneAndUpdate({_id: ctx.request.query._id}, {$set: {city : "Tirana"}, new: true});
 
             console.log(result);
 
@@ -112,18 +108,13 @@ module.exports = {
     addNewCompany: async(ctx) => {
         try {
             const result = await company.create(ctx.request.query);
-            const saved = await result.save();
 
-            if(!saved) {
-                ctx.body = "Company could not be saved to database";
-                ctx.status = 400;
-            }
             if(!result) {
                 ctx.body = "Company could not be created";
                 ctx.status = 400;
             }
             else{
-                ctx.body = "Company successfully created";
+                ctx.body = "Company successfully created\n" + result;
                 ctx.status = 200;
             }
         } catch (err) {
@@ -135,7 +126,7 @@ module.exports = {
     updateCompany: async (ctx) => {
         try {
             const newData = ctx.request.query.newData;
-            const result = await company.findOneAndUpdate({name: ctx.request.query.name}, {$set: {city : "Tirana"}, new: true});
+            const result = await company.findOneAndUpdate({_id: ctx.request.query._id}, {$set: {city : "Tirana"}, new: true});
 
             console.log(result);
 
@@ -153,9 +144,10 @@ module.exports = {
             ctx.status = 400;
             ctx.body = err;
         }
-    },showCompany: async (ctx, next) => {
+    },
+    readCompany: async (ctx) => {
         try {
-            const result = await company.findOne({name: ctx.request.query.name});
+            const result = await company.findOne({_id: ctx.request.query._id});
 
             if (!result) {
                 ctx.body = "Company can not be found";
@@ -172,10 +164,10 @@ module.exports = {
     },
     deleteCompany: async (ctx) => {
         try {
-            const result = await company.findOneAndRemove({name: ctx.request.query.name});
+            const result = await company.findOneAndRemove({_id: ctx.request.query._id});
 
             if(!result){
-                ctx.body = "Can not delete company";
+                ctx.body = "Can not find company";
                 ctx.status = 400;
             } else {
                 ctx.body = "Company successfully deleted";

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const company = require('./managementCompany');
 
 const venueSchema = new mongoose.Schema({
     name: {
@@ -8,6 +9,7 @@ const venueSchema = new mongoose.Schema({
     },
     country: String,
     city: String,
+    managementCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managementCompany'},
     address: String,
     coordinates: String,
     GLA: String,

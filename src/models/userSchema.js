@@ -2,9 +2,6 @@ const crypto = require('crypto');
 const mongoose = require('mongoose'); // standard module for  MongoDB
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const jwtsecret = "mysecretkey";
 
 //---------Use Schema and Module  ------------------//
 

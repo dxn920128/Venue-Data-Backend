@@ -26,7 +26,7 @@ module.exports = {
                 };
                 console.log(payload);
                 const token = jwt.sign(payload, jwtsecret, {expiresIn: 60 * 60}); //JWT is created here
-                ctx.body = {user: user.email, token: 'JWT ' + token};
+                ctx.body = {token: token};
             }
         })(ctx, next);
     },
@@ -95,12 +95,12 @@ module.exports = {
             console.log(result);
 
             if (!result) {
-                console.log("cant be found");
+                console.log("Can't be found");
                 ctx.body = "Venue can not be found";
                 ctx.status = 400;
             } else {
-                console.log("updated");
-                ctx.body = "Successfully updated " + result;
+                console.log("Updated");
+                ctx.body = "Venue successfully updated";
                 ctx.status = 200;
             }
         } catch (err) {
@@ -140,12 +140,12 @@ module.exports = {
             console.log(result);
 
             if (!result) {
-                console.log("cant be found");
+                console.log("Cant be found");
                 ctx.body = "Company can not be found";
                 ctx.status = 400;
             } else {
-                console.log("updated");
-                ctx.body = "Successfully updated " + result;
+                console.log("Updated");
+                ctx.body = "Company successfully updated";
                 ctx.status = 200;
             }
         } catch (err) {

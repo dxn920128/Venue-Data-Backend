@@ -32,7 +32,9 @@ module.exports = {
     },
     deleteVenue: async (ctx) => {
         try {
-            const result = await venue.findOneAndRemove({_id: ctx.request.query._id});
+            const result = await venue.findOneAndRemove({_id : ctx.params._id});
+
+            console.log(ctx.params._id);
 
             if(!result){
                 ctx.body = "Can not delete venue";
@@ -67,7 +69,7 @@ module.exports = {
     },
     readVenue: async (ctx) => {
         try {
-            const result = await venue.findOne({_id: ctx.request.query._id});
+            const result = await venue.findOne({_id: ctx.params._id});
 
             if (!result) {
                 ctx.body = "Venue can not be found";
@@ -101,19 +103,13 @@ module.exports = {
     },
     updateVenue: async (ctx) => {
         try {
-            /**************** FIX THIS METHOD *************/
-            const newData = ctx.request.query.newData;
-            const result = await venue.findOneAndUpdate({_id: ctx.request.query._id}, {$set: {city : "Tirana"}, new: true});
-
-            console.log(result);
+            const result = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {upsert:true, new : true});
 
             if (!result) {
-                console.log("Can't be found");
                 ctx.body = "Venue can not be found";
                 ctx.status = 400;
             } else {
-                console.log("Updated");
-                ctx.body = "Venue successfully updated";
+                ctx.body = "Venue successfully updated\n" + result;
                 ctx.status = 200;
             }
         } catch (err) {
@@ -142,18 +138,13 @@ module.exports = {
     },
     updateCompany: async (ctx) => {
         try {
-            const newData = ctx.request.query.newData;
-            const result = await company.findOneAndUpdate({_id: ctx.request.query._id}, {$set: {city : "Tirana"}, new: true});
-
-            console.log(result);
+            const result = await company.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {upsert:true, new : true});
 
             if (!result) {
-                console.log("Cant be found");
                 ctx.body = "Company can not be found";
                 ctx.status = 400;
             } else {
-                console.log("Updated");
-                ctx.body = "Company successfully updated";
+                ctx.body = "Company successfully updated\n" + result;
                 ctx.status = 200;
             }
         } catch (err) {
@@ -164,7 +155,7 @@ module.exports = {
     },
     readCompany: async (ctx) => {
         try {
-            const result = await company.findOne({_id: ctx.request.query._id});
+            const result = await company.findOne({_id: ctx.params._id});
 
             if (!result) {
                 ctx.body = "Company can not be found";
@@ -181,7 +172,7 @@ module.exports = {
     },
     deleteCompany: async (ctx) => {
         try {
-            const result = await company.findOneAndRemove({_id: ctx.request.query._id});
+            const result = await company.findOneAndRemove({_id: ctx.params._id});
 
             if(!result){
                 ctx.body = "Can not find company";

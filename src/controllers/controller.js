@@ -5,7 +5,7 @@ const venue = require("./.././models/venueSchema");
 const company = require("./.././models/managementCompany");
 
 module.exports = {
-    newUser: async (ctx) => {
+    signIn: async (ctx) => {
         try {
             ctx.body = await userModel.User.create(ctx.request.query);
             console.log()
@@ -20,7 +20,6 @@ module.exports = {
             if (!user) {
                 ctx.body = "Login failed";
             } else {
-                //--payload - info to put in the JWT
                 const payload = {
                     email: user.email
                 };
@@ -51,7 +50,7 @@ module.exports = {
     },
     addNewVenue: async (ctx) => {
         try {
-            const result = await venue.create(ctx.request.query);
+            const result = await venue.create(ctx.request.body);
 
             if(!result) {
                 ctx.body = "Venue could not be created";
@@ -105,6 +104,8 @@ module.exports = {
         try {
             const result = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {upsert:true, new : true});
 
+            console.log(ctx.request.body);
+
             if (!result) {
                 ctx.body = "Venue can not be found";
                 ctx.status = 400;
@@ -120,7 +121,7 @@ module.exports = {
     },
     addNewCompany: async(ctx) => {
         try {
-            const result = await company.create(ctx.request.query);
+            const result = await company.create(ctx.request.body);
 
             if(!result) {
                 ctx.body = "Company could not be created";

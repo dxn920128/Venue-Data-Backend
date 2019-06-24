@@ -3,7 +3,7 @@ const jwAuth = require("./.././middleware/jwtAuth");
 
 module.exports = ({ router }) => {
     router
-        .post('/newUser', controller.newUser)
+        .post('/signIn', controller.signIn)
         .post('/login', controller.login)
 
         .get('/venue', jwAuth, controller.readAllVenues)

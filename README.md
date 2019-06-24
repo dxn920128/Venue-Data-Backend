@@ -1,4 +1,4 @@
 # venueData
-A web application that allows users to fill in venue and management company information and save it to database shall be created.
+First internship task, a back end service of the web application that will allow users to save venue and management company information into database.
 
-See wiki page, https://github.com/yakuphanbilgic/venueData/wiki/API-Documentation
+See wiki page: https://github.com/yakuphanbilgic/venueData/wiki

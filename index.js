@@ -5,20 +5,14 @@ const bodyParser = require('koa-bodyparser');
 const {passport} = require("./src/models/userSchema");
 const database = require("./src/database/mongooseDatabase");
 const app = new Koa();
+const cors = require('@koa/cors');
 const router = new Router();
-const PORT = 3000;
+const PORT = 7000;
 
 database.connection.on('error', console.error);
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
-
 app.use(bodyParser());
+app.use(cors());
 app.use(passport.initialize());
 
 routes({router});

@@ -16,17 +16,13 @@ module.exports = {
 
     },
     login: async (ctx) => {
-
-        // const result = await userModel.passport.authenticate('local')(ctx);
-        //
         if (ctx.result) {
             console.log(ctx.result);
             console.log(ctx.result.email);
-            //--payload - info to put in the JWT
             const payload = {
                 id: ctx.result._id,
             };
-            const token = jwt.sign(payload, jwtsecret); //JWT is created here
+            const token = jwt.sign(payload, jwtsecret, {expiresIn: '4 days'}); //JWT is created here
 
             ctx.body = {user: ctx.result.email, token: 'JWT ' + token};
         } else {
@@ -61,8 +57,10 @@ module.exports = {
                 ctx.body = "Can not delete venue";
                 ctx.status = 400;
             } else {
-                ctx.body = "Venue successfully deleted";
-                ctx.status = 200;
+                ctx.body = {
+                    success: true,
+                    message: "Venue successfully deleted",
+                };
             }
         } catch (err) {
             console.log(err);
@@ -78,7 +76,11 @@ module.exports = {
                 ctx.body = "Venue could not be created";
                 ctx.status = 400;
             } else {
-                ctx.body = "Venue successfully created \n" + result;
+                ctx.body = {
+                    success: true,
+                    message: "Venue successfully created",
+                    data: result
+                };
                 ctx.status = 200;
             }
         } catch (err) {

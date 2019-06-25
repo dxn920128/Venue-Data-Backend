@@ -1,8 +1,8 @@
 const userModel = require("./.././models/userSchema");
 
 function jwt(ctx, next) {
-    return new Promise((resolve, reject) => {
-        userModel.passport.authenticate('jwt', (result, error) => {
+     return new Promise((resolve, reject) => {
+       userModel.passport.authenticate('jwt', (result, error) => {
             if(error){
                 reject(error);
             }

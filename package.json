@@ -2,6 +2,7 @@
   "name": "venueData",
   "version": "1.0.0",
   "dependencies": {
+    "@koa/cors": "^3.0.0",
     "axios": "latest",
     "jsonwebtoken": "^7.3.0",
     "koa": "^2.7.0",

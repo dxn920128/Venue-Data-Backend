@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const venueSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: 'name is required',
-        unique: 'should be unique'
+        required: 'name is required'
     },
     country: String,
     city: String,
@@ -12,7 +11,7 @@ const venueSchema = new mongoose.Schema({
     address: String,
     coordinates: String,
     GLA: String,
-    openingYear : String,
+    openingYear : Number,
     googleMapsStatus : Boolean,
     appleMapsStatus : Boolean,
     linkedIn : String,

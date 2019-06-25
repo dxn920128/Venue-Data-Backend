@@ -10,9 +10,16 @@ const PORT = 3000;
 
 database.connection.on('error', console.error);
 
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
 app.use(bodyParser());
 app.use(passport.initialize());
-app.use(passport.session());
 
 routes({router});
 

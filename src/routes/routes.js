@@ -1,20 +1,22 @@
 const controller = require("./.././controllers/controller");
-const jwAuth = require("./.././middleware/jwtAuth");
+const jwtAuth = require("./.././middleware/jwtAuth");
+const jwtLocal = require("./.././middleware/jwtLocal");
 
-module.exports = ({ router }) => {
+module.exports = ({router}) => {
     router
         .post('/signIn', controller.signIn)
-        .post('/login', controller.login)
+        .post('/login', jwtLocal, controller.login)
 
-        .get('/venue', jwAuth, controller.readAllVenues)
-        .post('/venue', controller.addNewVenue)
-        .delete('/venue/:_id', jwAuth, controller.deleteVenue)
-        .get('/venue/:_id', jwAuth, controller.readVenue)
-        .put('/venue/:_id', jwAuth, controller.updateVenue)
+        .get('/venue', jwtAuth, controller.readAllVenues)
+        .post('/venue', jwtAuth, controller.addNewVenue)
+        .delete('/venue/:_id', jwtAuth, controller.deleteVenue)
+        .get('/venue/:_id', jwtAuth, controller.readVenue)
+        .put('/venue/:_id', jwtAuth, controller.updateVenue);
 
-        .get('/company', jwAuth, controller.readAllCompanies)
-        .post('/company', jwAuth, controller.addNewCompany)
-        .delete('/company/:_id', jwAuth, controller.deleteCompany)
-        .get('/company/:_id', jwAuth, controller.readCompany)
-        .put('/company/:_id', jwAuth, controller.updateCompany);
+    router
+        .get('/company', jwtAuth, controller.readAllCompanies)
+        .post('/company', jwtAuth, controller.addNewCompany)
+        .delete('/company/:_id', jwtAuth, controller.deleteCompany)
+        .get('/company/:_id', jwtAuth, controller.readCompany)
+        .put('/company/:_id', jwtAuth, controller.updateCompany);
 };

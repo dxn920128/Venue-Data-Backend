@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const company = require('./managementCompany');
 
 const venueSchema = new mongoose.Schema({
     name: {

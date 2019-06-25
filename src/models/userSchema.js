@@ -2,6 +2,9 @@ const crypto = require('crypto');
 const mongoose = require('mongoose'); // standard module for  MongoDB
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy; // Auth via JWT
+const ExtractJwt = require('passport-jwt').ExtractJwt; // Auth via JWT
+const jwtsecret = "mysecretkey"; // signing key for JWT
 
 //---------Use Schema and Module  ------------------//
 
@@ -34,9 +37,10 @@ userSchema.virtual('password')
     });
 
 userSchema.methods.checkPassword = function (password) {
+    const _is = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
     if (!password) return false;
     if (!this.passwordHash) return false;
-    return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
+    return _is;
 };
 
 const User = mongoose.model('User', userSchema);
@@ -50,11 +54,17 @@ passport.use(new LocalStrategy({
     },
     function (email, password, done) {
         User.findOne({email}, (err, user) => {
+            console.log("Found a user ", user);
             if (err) {
                 return done(err);
             }
+            if (!user){
+                return done(err);
+            }
+            const checked =  user.checkPassword(password);
+            console.log("Calling the same function here", checked);
 
-            if (!user || !user.checkPassword(password)) {
+            if (!checked) {
                 return done(null, false, {message: 'User does not exist or wrong password.'});
             }
             return done(null, user);
@@ -62,5 +72,27 @@ passport.use(new LocalStrategy({
     }
     )
 );
+
+const jwtOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: jwtsecret
+};
+
+passport.use(new JwtStrategy(jwtOptions, function (payload, done) {
+        User.findById(payload.id, (err, user) => {
+            console.log(payload.id);
+            
+            if (err) {
+                return done(err)
+            }
+            if (user) {
+                done(null, user)
+            } else {
+                done(null, false)
+            }
+        })
+    })
+);
+
 
 module.exports = {User, passport};

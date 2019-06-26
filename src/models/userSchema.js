@@ -4,7 +4,7 @@ const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy; // Auth via JWT
 const ExtractJwt = require('passport-jwt').ExtractJwt; // Auth via JWT
-const jwtsecret = "mysecretkey"; // signing key for JWT
+const jwtsecret = "kns2018"; // signing key for JWT
 
 //---------Use Schema and Module  ------------------//
 
@@ -62,7 +62,6 @@ passport.use(new LocalStrategy({
                 return done(err);
             }
             const checked =  user.checkPassword(password);
-            console.log("Calling the same function here", checked);
 
             if (!checked) {
                 return done(null, false, {message: 'User does not exist or wrong password.'});

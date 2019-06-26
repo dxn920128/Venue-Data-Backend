@@ -30,7 +30,7 @@ module.exports = async (ctx, next) => {
         }
     } catch (err) {
         console.log("jwtAuth Error ", err);
-        ctx.body = "JWT Authentication Error";
+        ctx.body = "JWT Authentication Error " + err;
         ctx.status = 400;
     }
 };

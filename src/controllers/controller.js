@@ -32,7 +32,7 @@ module.exports = {
                 success: true,
                 message : "Welcome " + ctx.result.email,
                 data : {
-                    token : 'JWT ' + token
+                    token : "JWT " + token
                 }
             };
         } else {

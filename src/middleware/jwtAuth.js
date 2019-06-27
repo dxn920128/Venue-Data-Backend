@@ -29,7 +29,7 @@ module.exports = async (ctx, next) => {
             console.log("token Err");
         }
     } catch (err) {
-        console.log("jwtAuth Error ", err);
+        console.log("jwtAuth Error", err);
         ctx.body = "JWT Authentication Error " + err;
         ctx.status = 400;
     }

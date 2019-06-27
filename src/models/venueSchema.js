@@ -5,7 +5,7 @@ const venueSchema = new mongoose.Schema({
         type: String,
         required: 'name is required'
     },
-    country: [],
+    country: String,
     city: String,
     managementCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managementCompany'},
     address: String,

@@ -1,32 +1,32 @@
 const mongoose = require('mongoose');
 
 const venueSchema = new mongoose.Schema({
-    name: {
+    venueName: {
         type: String,
         required: 'name is required'
     },
     country: String,
     city: String,
-    managementCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managementCompany'},
+    managingCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managementCompany'},
     address: String,
     coordinates: String,
-    GLA: Number,
+    gla: Number,
     openingYear : Number,
     googleMapsStatus : Boolean,
     appleMapsStatus : Boolean,
-    linkedIn : String,
+    linkedin : String,
     facebook : String,
     twitter : String,
     instagram : String,
     androidApp : String,
-    iOSApp : String,
+    iosApp : String,
     website : String,
     yandex : String,
     foursquare : String,
-    yelpLink : String,
+    yelp : String,
     googleMyBusiness : String,
     tripAdvisor : String,
-    moovitApp : String,
+    moovit : String,
     zomato : String,
     airbnb : String,
     isOurCustomer : [

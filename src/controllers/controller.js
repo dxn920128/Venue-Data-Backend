@@ -95,7 +95,9 @@ module.exports = {
     },
     readVenue: async (ctx) => {
         try {
-            const result = await venue.findOne({_id: ctx.params._id});
+            const result = await venue.findOne({_id: ctx.params._id})
+                .populate('managingCompany')
+                .lean();
 
             if (!result) {
                 ctx.body = {
@@ -122,7 +124,9 @@ module.exports = {
     },
     readAllVenues: async (ctx) => {
         try {
-            const result = await venue.find({});
+            const result = await venue.find({})
+                .populate('managingCompany')
+                .lean();
 
             if (!result) {
                 ctx.body = {

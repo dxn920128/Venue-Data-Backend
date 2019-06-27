@@ -7,7 +7,7 @@ const venueSchema = new mongoose.Schema({
     },
     country: String,
     city: String,
-    managingCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managementCompany'},
+    managingCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managingCompany'},
     address: String,
     coordinates: String,
     gla: Number,

@@ -10,6 +10,7 @@ const venueSchema = new mongoose.Schema({
     managingCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managingCompany'},
     address: String,
     coordinates: String,
+    type: String,
     gla: Number,
     openingYear : Number,
     googleMapsStatus : Boolean,

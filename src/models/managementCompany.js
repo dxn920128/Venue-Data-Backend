@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 
 const ManagingCompany = new mongoose.Schema({
-    companyName: {
-        type: String,
-        required: 'name is required',
-        unique: 'should be unique'
-    },
+    companyName: String,
     hqCountry: String,
     hqCity: String,
     hqAddress: String,
     totalGLA: String,
     numberOfVenues: String,
-    linkedIn : String,
+    linkedin : String,
+    numberOfCountries: String,
     facebook : String,
     twitter : String,
     instagram : String,

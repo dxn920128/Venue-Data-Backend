@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ManagingCompany = new mongoose.Schema({
-    name: {
+    companyName: {
         type: String,
         required: 'name is required',
         unique: 'should be unique'
@@ -15,6 +15,7 @@ const ManagingCompany = new mongoose.Schema({
     facebook : String,
     twitter : String,
     instagram : String,
+    youtube : String,
     website : String,
 }, {
     timestamps: true

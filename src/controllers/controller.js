@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const jwtsecret = "kns2018";
 const venue = require("./.././models/venueSchema");
 const company = require("./.././models/managementCompany");
+const myMethods = require("./controller-helper");
+const toBackEnd = myMethods.toBackEnd;
+const toFrontEnd = myMethods.toFrontEnd;
 
 module.exports = {
     signIn: async (ctx) => {
@@ -53,7 +56,7 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
-                const result2 = await company.findOneAndUpdate({_id: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
+                const result2 = await company.findOneAndUpdate({companyName: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
 
                 if(!result) {
                     ctx.body = {
@@ -81,6 +84,7 @@ module.exports = {
     addNewVenue: async (ctx) => {
         try {
             const result = await venue.create(ctx.request.body);
+            result.venueType = toBackEnd(ctx.request.body.venueType);
 
             if (!result) {
                 ctx.body = {
@@ -89,9 +93,9 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
-                const result2 = await company.findOneAndUpdate({_id: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
+                const result2 = await company.findOneAndUpdate({companyName: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
 
-                if(!result) {
+                if(!result2) {
                     ctx.body = {
                         message : "Venue can not be created.",
                         success : false
@@ -118,8 +122,6 @@ module.exports = {
     readVenue: async (ctx) => {
         try {
             const result = await venue.findOne({_id: ctx.params._id})
-                .populate('managingCompany')
-                .lean();
 
             if (!result) {
                 ctx.body = {
@@ -128,6 +130,8 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
+                result.venueType = toFrontEnd(result.venueType);
+                console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"  , result);
                 ctx.body = {
                     data : result,
                     message : "Venue successfully found.",
@@ -146,9 +150,7 @@ module.exports = {
     },
     readAllVenues: async (ctx) => {
         try {
-            const result = await venue.find({})
-                .populate('managingCompany')
-                .lean();
+            const result = await venue.find({});
 
             if (!result) {
                 ctx.body = {
@@ -157,6 +159,14 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
+
+                let i;
+                for (i = 0; i < result.length; i++) {
+                    result[i].venueType = toFrontEnd(result[i].venueType)
+                }
+
+
+
                 ctx.body = {
                     message : "Venues successfully read.",
                     success : true,
@@ -185,12 +195,12 @@ module.exports = {
                 ctx.status = 400;
             } else {
                 if(ctx.request.body.managingCompany) {
-                    const result1 = await company.findOneAndUpdate({_id: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
+                    const result1 = await company.findOneAndUpdate({companyName: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
                     const result2 = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {
                         upsert: true,
                         new: true
                     });
-                    const result3 = await company.findOneAndUpdate({_id: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
+                    const result3 = await company.findOneAndUpdate({companyName: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
 
                     if(result1 && result2 && result3){
                         ctx.body = {
@@ -216,6 +226,14 @@ module.exports = {
                     };
                     ctx.status = 200;
                 } 
+                if(ctx.request.body.venueType){
+                    ctx.request.body.venueType = toBackEnd(ctx.request.body.venueType);
+
+                    const result2 = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {
+                        upsert: true,
+                        new: true
+                    });
+                }
             }
         } catch (err) {
             console.log(err);

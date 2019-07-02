@@ -6,7 +6,7 @@ const ManagingCompany = new mongoose.Schema({
     hqCity: String,
     hqAddress: String,
     totalGLA: String,
-    numberOfVenues: String,
+    numberOfVenues: Number,
     linkedin : String,
     numberOfCountries: String,
     facebook : String,

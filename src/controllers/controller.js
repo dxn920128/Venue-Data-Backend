@@ -53,10 +53,22 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
-                ctx.body = {
-                    success: true,
-                    message: "Venue successfully deleted.",
-                };
+                const result2 = await company.findOneAndUpdate({_id: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
+
+                if(!result) {
+                    ctx.body = {
+                        message : "Venue can not be deleted.",
+                        success : false
+                    };
+                    ctx.status = 200;
+                } else {
+                    ctx.body = {
+                        success: true,
+                        message: "Venue successfully deleted.",
+                        data: result
+                    };
+                    ctx.status = 200;
+                }
             }
         } catch (err) {
             ctx.status = 400;
@@ -77,12 +89,22 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
-                ctx.body = {
-                    success: true,
-                    message: "Venue successfully created.",
-                    data: result
-                };
-                ctx.status = 200;
+                const result2 = await company.findOneAndUpdate({_id: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
+
+                if(!result) {
+                    ctx.body = {
+                        message : "Venue can not be created.",
+                        success : false
+                    };
+                    ctx.status = 200;
+                } else {
+                    ctx.body = {
+                        success: true,
+                        message: "Venue successfully created.",
+                        data: result
+                    };
+                    ctx.status = 200;
+                }
             }
         } catch (err) {
             console.log(err);
@@ -153,13 +175,8 @@ module.exports = {
     },
     updateVenue: async (ctx) => {
         try {
-            const result = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {
-                upsert: true,
-                new: true
-            });
-
-            console.log(ctx.request.body);
-
+            const result =  await venue.findOne({_id: ctx.params._id});
+            
             if (!result) {
                 ctx.body = {
                     message : "Venue can not be found.",
@@ -167,12 +184,38 @@ module.exports = {
                 };
                 ctx.status = 400;
             } else {
-                ctx.body = {
-                    message : "Venue successfully updated.",
-                    data : result,
-                    success : true
-                };
-                ctx.status = 200;
+                if(ctx.request.body.managingCompany) {
+                    const result1 = await company.findOneAndUpdate({_id: result.managingCompany}, {$inc:{'numberOfVenues':-1}}, {new: true, upsert : true})
+                    const result2 = await venue.findOneAndUpdate({_id: ctx.params._id}, ctx.request.body, {
+                        upsert: true,
+                        new: true
+                    });
+                    const result3 = await company.findOneAndUpdate({_id: ctx.request.body.managingCompany}, {$inc:{'numberOfVenues':1}}, {new: true, upsert : true})
+
+                    if(result1 && result2 && result3){
+                        ctx.body = {
+                            message : "Venue successfully updated.",
+                            data : result,
+                            success : true
+                        };
+                        ctx.status = 200;
+                    }
+                    else {
+                        ctx.body = {
+                            message : "Venue can not be updated.",
+                            success : false
+                        };
+                        ctx.status = 400;
+                    }
+
+                } else {
+                    ctx.body = {
+                        message : "Venue successfully updated.",
+                        data : result,
+                        success : true
+                    };
+                    ctx.status = 200;
+                } 
             }
         } catch (err) {
             console.log(err);

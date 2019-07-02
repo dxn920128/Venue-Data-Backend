@@ -8,6 +8,7 @@ const venueSchema = new mongoose.Schema({
     country: String,
     city: String,
     managingCompany : {type : mongoose.Schema.Types.ObjectId, ref : 'managingCompany'},
+    venueType: String,
     address: String,
     coordinates: String,
     type: String,
